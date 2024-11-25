@@ -1,0 +1,81 @@
+Prompt 2: Few shot prompting
+Context:
+Class disjointness refers a constraint where two or more classes do not share any common instances. However, boundaries between some classes are not certain.
+
+Examples:
+
+Question: Are 'nation' and 'ethnic group' distinct classes?
+Answer: yes
+
+Question: Are 'animal' and 'transportation' distinct classes?
+Answer: yes
+
+Question: Are 'horse' and 'animal' distinct classes?
+Answer: no
+
+Question: Are 'horse' and 'transportation' distinct classes?
+Answer: no
+
+Task:
+Based on the context above, determine whether <candidate-type-placeholder> and <rule-head-constant> represent distinct classes.
+
+Question: Are <candidate-type-placeholder> and <rule-head-constant> distinct classes?
+Answer:
+
+Prompt 4: CoT
+Context:
+Class disjointness refers to the principle that entities belonging to one class are generally not interchangeable with entities from another class. For example, instances of the class 'nation' cannot also be instances of the class 'ethnic group'. However, boundaries between classes can sometimes overlap. For instance, while 'animal' instances are typically not used as values for the class 'transportation', horses are an exception as they have historically served both as animals and a means of transport.
+
+Task:
+Determine whether <candidate-type-placeholder> and <rule-head-constant> represent distinct classes. Think through the reasoning step-by-step before providing the final answer.
+
+Example:
+
+Question: Are 'nation' and 'ethnic group' distinct classes?
+Reasoning: Nations and ethnic groups are conceptually different. A nation represents a political entity, whereas an ethnic group represents a cultural or social group. They are not interchangeable.
+Answer: yes
+
+Question: Are 'animal' and 'transportation' distinct classes?
+Reasoning: The class 'animal' typically refers to living creatures, while 'transportation' refers to methods of moving goods or people. Although horses can serve as both, generally, animals are not considered transportation.
+Answer: yes
+
+Question: Are 'horse' and 'animal' distinct classes?
+Reasoning: A horse is a specific type of animal, so it is a subset rather than a distinct category.
+Answer: no
+
+Question: Are 'horse' and 'transportation' distinct classes?
+Reasoning: While a horse can function as a mode of transportation, it is fundamentally an animal. Therefore, 'horse' is not a distinct class from 'animal', but it can overlap with the concept of transportation.
+Answer: no
+
+Now, consider the following:
+
+Question: Are <candidate-type-placeholder> and <rule-head-constant> distinct classes?
+Reasoning:
+...
+
+Answer:
+
+Prompt 5: Prompt chaining
+
+Step 1: Understanding Class Disjointness
+Prompt:
+Class disjointness refers to the idea that entities from one class cannot serve as entities for another distinct class. For example, instances of the class 'nation' cannot be instances of the class 'ethnic group'. However, there can be overlaps; for example, while 'animal' instances generally do not belong to the class 'transportation', horses serve as an exception because they have historically been used for transport.
+
+Provide an explanation of what does it mean for two classes to be distinct?
+
+Model's Response:
+
+Step 2: Critique the Explanation
+Prompt:
+Review the draft explanation above. Provide critical feedback and suggestions for improvement, focusing on clarity, completeness, and whether it effectively explains the concept of class disjointness.
+Model's Response:
+
+Step 3: Refine the Explanation Based on Critique
+Prompt: 
+Using the critique provided, refine the draft explanation to make it clearer and more comprehensive. Ensure that the refined explanation accurately conveys what it means for two classes to be distinct.
+
+Step 3: Determining the Answer
+Prompt:
+From the analysis above, are <candidate-type-placeholder> and <rule-head-constant> considered distinct classes? Provide a clear 'yes' or 'no' answer based on refined reasoning.
+
+Model's Response:

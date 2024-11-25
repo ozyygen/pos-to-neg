@@ -1,0 +1,24 @@
+Prompt 3: Prompt chaining
+
+Step 1: Understanding Class Disjointness
+Prompt:
+Class disjointness refers a constraint where two or more classes do not share any common instances. For example, instances of the class 'nation' cannot also be instances of the class 'ethnic group'. However, boundaries between some classes are not certain. For example, while 'animal' instances are not typically overlap with the 'transportation' instances, horses are being an exception as they are both animals and type of transport.
+
+Provide an explanation of what does it mean for two classes to be distinct?
+
+Model's Response:
+
+Step 2: Critique the Explanation
+Prompt:
+Review the draft explanation above. Provide critical feedback and suggestions for improvement, focusing on clarity, completeness, and whether it effectively explains the concept of class disjointness.
+Model's Response:
+
+Step 3: Refine the Explanation Based on Critique
+Prompt: 
+Using the critique provided, refine the draft explanation to make it clearer and more comprehensive. Ensure that the refined explanation accurately conveys what it means for two classes to be distinct.
+
+Step 3: Determining the Answer
+Prompt:
+From the analysis above, are <candidate-type-placeholder> and <rule-head-constant> distinct classes? Respond with 'yes' if they are distinct classes or 'no' if they are not.
+
+Model's Response:
