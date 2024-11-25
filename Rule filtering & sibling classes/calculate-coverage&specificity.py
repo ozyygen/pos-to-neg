@@ -13,7 +13,7 @@ def parse_predicate_and_object(predicate_obj_str):
     else:
         raise ValueError("Unexpected format for predicate and object extraction")
 
-# Load CSV file without headers and assign column names
+
 f_df = pd.read_csv(
     "/home/jovyan/work/pos-to-neg-rules/rules-1000-anyb-codex",
     sep='\t',
@@ -60,7 +60,7 @@ def assess_rule(row):
 
 # Define probability ranges and process each range
 ranges = [
-    (0.95, 0.99), (0.9, 0.95), (0.85, 0.9), (0.8, 0.85), (0.75, 0.8), (0.7, 0.75), (0.65, 0.7), (0.6, 0.65)
+    (0.85, 0.90),(0.90, 0.95), (0.95, 1.0)
 ]
 
 for lower, upper in ranges:
