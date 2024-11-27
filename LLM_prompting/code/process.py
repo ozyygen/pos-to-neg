@@ -4,7 +4,7 @@ from pathlib import Path
 import os
 import pandas as pd
 
-def process(prompt_path: str, data_path: str, models: list, hf_token: str, output_path: str, chosen_rules="all", verbose=False):
+def process(prompt_path: str, data_path: str, models: list, output_path: str, chosen_rules="all", verbose=False):
     """
     Generates prompts for all rules, gets results from a series of LLMs per chosen rules.
 
@@ -12,7 +12,6 @@ def process(prompt_path: str, data_path: str, models: list, hf_token: str, outpu
         Path to the file containing a generic LLM prompt (prompt_path: str) ,
         Path to the file containing labels and their outputs to be substitutes (data_path: str) ,
         A list of LLM models (models: list) ,
-        User's HuggingFace Token for authentication (hf_token: str) ,
         Path to the folder where resulting components will be outputted (output_path: str) ,
         A list of rules whose prompts will be processed by the LLMs, considers all rules by default (chosen_rules: "all" or list) ,
         Indicator for if the progress should be printed, False by default (verbose: bool) .
@@ -46,16 +45,16 @@ def process(prompt_path: str, data_path: str, models: list, hf_token: str, outpu
     # Get LLMs' results per rule
     for rule in chosen_rules:
         rule_path = prompts_path / f"{rule}.csv"
-        auto_LLMs(rule_path=rule_path, models=models, hf_token=hf_token, output_path=answers_path)
+        auto_LLMs(rule_path=rule_path, models=models, output_path=answers_path)
         print(f"Generated LLM answers for rule {rule}.\n -----") if verbose else None
 
     print("Done.") if verbose else None
 
 # Example
-prompt_path = "/home/jovyan/work/persistent/LLM_prompting/data/input/LLM-prompts.txt"
-data_path = "/home/jovyan/work/persistent/LLM_prompting/data/input/output-with-labels.txt"
-models = ["Qwen/Qwen2.5-1.5B-Instruct", "facebook/opt-1.3b", "bigscience/bloomz-560m", "openai-community/gpt2"]
-hf_token = "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"
-output_path = "/home/jovyan/work/persistent/LLM_prompting/data"
-chosen_rules = ["English", "voice", "Spanish", "film_genre"]
-process(prompt_path=prompt_path, data_path=data_path, models=models, hf_token=hf_token, output_path=output_path, chosen_rules=chosen_rules)
+prompt_path = "/home/jovyan/work/pos-to-neg-rules/LLM/DATA/Zero-shot_prompt.txt"
+data_path = "/home/jovyan/work/pos-to-neg-rules/LLM/DATA/sibling_output.txt"
+models = ["qwen2.5-coder:0.5b"]
+#hf_token = "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"
+output_path = "/home/jovyan/work/pos-to-neg-rules/LLM/prompts"
+chosen_rules = ["atheism"]
+process(prompt_path=prompt_path, data_path=data_path, models=models, output_path=output_path, chosen_rules=chosen_rules)

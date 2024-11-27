@@ -1,11 +1,12 @@
 from pathlib import Path
 import pandas as pd
 from tqdm import tqdm
+from openai import OpenAI
 from huggingface_hub import login
 from transformers import pipeline, AutoTokenizer
 import torch
 
-def auto_LLMs(rule_path: str, models: list, hf_token: str, output_path: str):
+def auto_LLMs(rule_path: str, models: list, output_path: str):
     """
     For a given list of LLMs and a list of prompts, answers are generated, recorded, and written to a CSV file.
     
@@ -25,48 +26,43 @@ def auto_LLMs(rule_path: str, models: list, hf_token: str, output_path: str):
 
     output_path = Path(output_path) # get output folder as path
 
-    login(token=hf_token) # login to HuggingFace
     torch.manual_seed(0) # set seed
 
     # Default prompt specifying context, question and instructions to the LLM
-    default_prompt = """
-        Answer the question based on the context below
-        Context: {context}
-        Question: {question}
-        Answer:
-    """
+    default_messages = [
+        {"role": "system", "content": "{context}"},
+        {"role": "user", "content": "{question}"}
+    ]
 
-    # Repeat per model
-    for ch_model in models:
-        tokenizer = AutoTokenizer.from_pretrained(ch_model) # load tokenizer
 
-        # Define the process and modules
-        generator = pipeline("text-generation",
-                              model=ch_model,
-                              tokenizer=tokenizer,
-                              torch_dtype=torch.bfloat16,
-                              device_map="auto",
-                              )
-        
-        answers = [] # to store model outputs
+
+    # Generate per model
+    for model in models:
+        client = OpenAI(
+        base_url=f"http://qwen2.5-coder:11434/",
+        api_key="ollama"
+    )
+        answers = [] # to store model's answers
 
         # Iterate through prompts
         for ix in tqdm(range(rule.shape[0])):
             prompt = rule["Prompt"].iloc[ix] # get the prompt
             context, question = prompt.split("\n\n", 1) # split prompt's context and question
-            input_prompt = default_prompt.format(context=context, question=question) # format prompt template
-
-            # Define generation parameters and get answer from the LLM
-            sequences = generator(input_prompt,
-                                  max_new_tokens=5, # limits output length significantly
-                                  pad_token_id=generator.tokenizer.eos_token_id,
-                                  do_sample=True,
-                                  top_k=5,
-                                  return_full_text=False, # will not return the prompt part
-                                  )
-
-            for seq in sequences:
-                answers.append(seq["generated_text"]) # append only the string part of the answer object
+            
+            # Formatted 
+            messages = [
+                {"role": "system", "content": f"Answer only in 'Yes' or 'No'\nContext: {context}"},
+                {"role": "user", "content": f"Question: {question}"}
+            ]
+            
+            # Get response
+            response = client.chat.completions.create(
+                model=model,
+                messages=messages,
+                max_tokens=5 # limit tokens to get desired Yes/No output
+            )
+            
+            answers.append(response.choices[0].message.content) # store answer
         
         rule[ch_model] = answers # add answers as a column
 
@@ -76,11 +72,9 @@ def auto_LLMs(rule_path: str, models: list, hf_token: str, output_path: str):
     rule.to_csv(output_path / f"{rule_path.stem}.csv", index=None) # write results after each model is done
 
 # Example
-
 """
 rule_path = "/home/jovyan/work/persistent/LLM_prompting/data/prompts/German.csv"
-models = ["Qwen/Qwen2.5-1.5B-Instruct", "facebook/opt-1.3b", "bigscience/bloomz-560m", "openai-community/gpt2"]
-hf_token = "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"
+models = ["qwen2.5-coder:0.5b"]
 output_path = "/home/jovyan/work/persistent/LLM_prompting/data/answers"
 auto_LLMs(rule_path=rule_path, models=models, hf_token=hf_token, output_path=output_path)
 """

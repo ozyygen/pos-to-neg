@@ -25,7 +25,7 @@ def prompt_generator(prompt_path: str, data_path: str, output_path: str):
     lines = data.splitlines() # data line by line
     
     output_path = Path(output_path)
-    
+ 
     rule_no = 1 # to enumerate rules
     for ix, line in tqdm(enumerate(lines)):
         if line.startswith("Rule_constant:"): # find rule constant
@@ -33,7 +33,7 @@ def prompt_generator(prompt_path: str, data_path: str, output_path: str):
             # Lists for the DataFrame
             candidates = []
             prompts = []
-            
+  
             constant = line.split(" ", 1)[-1].strip().replace(" ", "_") # get constant name
             section = [] # list to append lines relevant to the constant
             
@@ -58,9 +58,8 @@ def prompt_generator(prompt_path: str, data_path: str, output_path: str):
                     break
 
 # Example
-"""
-prompt_path = "/home/jovyan/work/persistent/LLM_prompting/data/input/LLM-prompts.txt"
-data_path = "/home/jovyan/work/persistent/LLM_prompting/data/input/output-with-labels.txt"
-output_path = "/Users/omerdurukankilic/Desktop/work/RA/wikidata_noise/data/prompts"
+
+prompt_path = "/home/jovyan/work/pos-to-neg-rules/LLM/DATA/Zero-shot_prompt.txt"
+data_path = "/home/jovyan/work/pos-to-neg-rules/LLM/DATA/sibling_output.txt"
+output_path = "/home/jovyan/work/pos-to-neg-rules/LLM/prompts"
 prompt_generator(prompt_path=prompt_path, data_path=data_path, output_path=output_path)
-"""
