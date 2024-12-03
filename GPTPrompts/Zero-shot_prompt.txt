@@ -1,6 +1,0 @@
-Prompt 1: Zero shot prompting
-Context:
-Class disjointness refers a constraint where two or more classes do not share any common instances. For example, instances of the class 'nation' cannot also be instances of the class 'ethnic group'. However, boundaries between some classes are not certain. For example, while 'animal' instances are not typically overlap with the 'transportation' instances, horses are being an exception as they are both animals and type of transport.
-
-Question:
- Are <candidate-type-placeholder> and <rule-head-constant> distinct classes? Respond with 'yes' if they are distinct classes or 'no' if they are not.

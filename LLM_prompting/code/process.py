@@ -50,11 +50,10 @@ def process(prompt_path: str, data_path: str, models: list, output_path: str, ch
 
     print("Done.") if verbose else None
 
-# Example
-prompt_path = "/home/jovyan/work/pos-to-neg-rules/LLM/DATA/Zero-shot_prompt.txt"
-data_path = "/home/jovyan/work/pos-to-neg-rules/LLM/DATA/sibling_output.txt"
-models = ["qwen2.5-coder:0.5b"]
-#hf_token = "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"
-output_path = "/home/jovyan/work/pos-to-neg-rules/LLM/prompts"
-chosen_rules = ["atheism"]
+
+prompt_path = "/app/LLM_prompting/data/prompt/Few-shot_prompt.txt"
+data_path = "/app/LLM_prompting/data/sibling_output.txt"
+models = ["qwen2.5-coder:32b","llama3.2","mistral","llama3.1:70b","llama3.1:8b"]
+output_path = "/app/LLM_prompting/data"
+chosen_rules = ["English","human","voice"]
 process(prompt_path=prompt_path, data_path=data_path, models=models, output_path=output_path, chosen_rules=chosen_rules)

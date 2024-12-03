@@ -19,57 +19,65 @@ def auto_LLMs(rule_path: str, models: list, output_path: str):
     Returns:
         None .
     """
-
-    # Get rule prompts
+  # Load the rules
     rule_path = Path(rule_path)
     rule = pd.read_csv(rule_path)
 
-    output_path = Path(output_path) # get output folder as path
-
-    torch.manual_seed(0) # set seed
-
-    # Default prompt specifying context, question and instructions to the LLM
-    default_messages = [
-        {"role": "system", "content": "{context}"},
-        {"role": "user", "content": "{question}"}
-    ]
-
-
-
-    # Generate per model
+    # Ensure output path exists
+    output_path = Path(output_path)
+    output_path.mkdir(parents=True, exist_ok=True)
+    client = OpenAI(
+    base_url="http://ollama:11434/v1/",  # Ensure this URL is correct
+    api_key="ollama"  # Replace with the actual API key
+)
+    torch.manual_seed(0)
     for model in models:
-        client = OpenAI(
-        base_url=f"http://qwen2.5-coder:11434/",
-        api_key="ollama"
-    )
-        answers = [] # to store model's answers
+        print(f"Processing model: {model}")
+        answers = []  # To store model's answers
 
         # Iterate through prompts
-        for ix in tqdm(range(rule.shape[0])):
-            prompt = rule["Prompt"].iloc[ix] # get the prompt
-            context, question = prompt.split("\n\n", 1) # split prompt's context and question
-            
-            # Formatted 
-            messages = [
-                {"role": "system", "content": f"Answer only in 'Yes' or 'No'\nContext: {context}"},
-                {"role": "user", "content": f"Question: {question}"}
-            ]
-            
-            # Get response
-            response = client.chat.completions.create(
-                model=model,
-                messages=messages,
-                max_tokens=5 # limit tokens to get desired Yes/No output
-            )
-            
-            answers.append(response.choices[0].message.content) # store answer
-        
-        rule[ch_model] = answers # add answers as a column
+        for ix in tqdm(range(rule.shape[0]), desc=f"Evaluating prompts for {model}"):
+            try:
+                # Get the prompt and clean unnecessary spaces
+                prompt = rule["Prompt"].iloc[ix].strip()
+                context, question = prompt.split("\n\n", 1)  # Split prompt into context and question
 
-        rule.to_csv(output_path / f"{rule_path.stem}.csv", index=None) # write results after each model is done
-    
-    rule.drop(["Prompt"], axis=1) # no need to keep the prompts
-    rule.to_csv(output_path / f"{rule_path.stem}.csv", index=None) # write results after each model is done
+                # Format messages
+                messages = [
+                    {"role": "system", "content": f"Answer only in 'Yes' or 'No'\nContext: {context}"},
+                    {"role": "user", "content": f"Question: {question}"}
+                ]
+
+                # Get response from the model
+                response = client.chat.completions.create(
+                    model=model,
+                    messages=messages,
+                    max_tokens=5  # Limit tokens to get concise Yes/No output
+                )
+
+                # Extract and store the answer
+                answer = response.choices[0].message.content.strip()
+
+                answers.append(answer)
+
+            except Exception as e:
+                print(f"Error for prompt {ix} with model {model}: {e}")
+                answers.append("Error")
+
+        # Add answers as a column to the DataFrame
+        rule[model] = answers
+
+        # Save intermediate results for the current model
+        rule.to_csv(output_path / f"{rule_path.stem}_{model}.csv", index=False)
+        print(f"Results saved for model {model} to {output_path / f'{rule_path.stem}_{model}.csv'}")
+
+    # Remove the "Prompt" column as it is no longer needed
+    rule.drop(columns=["Prompt"], inplace=True)
+
+    # Save the final results
+    rule.to_csv(output_path / f"{rule_path.stem}_final.csv", index=False)
+    print(f"Final results saved to {output_path / f'{rule_path.stem}_final.csv'}")
+
 
 # Example
 """
