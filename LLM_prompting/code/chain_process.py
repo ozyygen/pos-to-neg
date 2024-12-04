@@ -47,24 +47,26 @@ def chain_process(prompt_path: str, data_path: str, models: list, output_path: s
         base_url="http://ollama:11434/v1/",
         api_key="ollama"
     )
+    
+    tables = [] # to store tables for merging later
+    for chosen_rule in chosen_rules: # iterate through all rules
+        rule_path = prompts_path / f"{chosen_rule}.csv"
+        rule = pd.read_csv(rule_path) # get the table which contains prompts for this rule
+        prompts = rule["Prompt"].to_list() # select only the prompts
+        
+        # Generate per model
+        for model in models:
+            answers = [] # to store final answers
+            new_prompts = [] # to store all answers
 
-    # Generate per model
-    for model in models:
-        for chosen_rule in chosen_rules:  # iterate through all rules
-            rule_path = prompts_path / f"{chosen_rule}.csv"
-            rule = pd.read_csv(rule_path)  # get the table which contains prompts for this rule
-            prompts = rule["Prompt"].to_list()  # select only the prompts
-            
-            answers = []  # Reset answers for the current rule
-
-            for prompt in tqdm(prompts):  # iterate through each prompt for this rule
-                sep_prompts = prompt.split("Model's Response:")  # split each stage by the specific answer marker
-                sep_prompts = list(filter(None, sep_prompts))  # remove empty splits
-
-                sub_answers = []  # Store model answers for each step
+            for prompt in tqdm(prompts): # iterate through each prompt for this rule
+                sep_prompts = prompt.split("Model's Response:") # split each stage by the specific answer marker
+                sep_prompts = list(filter(None, sep_prompts)) # remove empty splits
+                
+                sub_answers = [] # for model answers per prompt
                 for ix in range(len(sep_prompts)):
-                    question = sep_prompts[ix]  # get the current prompt
-                    history = ""  # set a blank history
+                    question = sep_prompts[ix] # get the current prompt
+                    history = "" # set a blank history
 
                     if ix != 0:
                         for i in range(ix):
@@ -77,40 +79,46 @@ def chain_process(prompt_path: str, data_path: str, models: list, output_path: s
                     ]
 
                     # Get response
-                    if ix == len(sep_prompts) - 1:
+                    if ix == len(sep_prompts)-1:
                         response = client.chat.completions.create(
                             model=model,
                             messages=messages,
-                            max_tokens=2  # limit if it is the final Yes/No question
+                            max_tokens=2 # limit if it is the final Yes/No question
                         )
                     else:
                         response = client.chat.completions.create(
                             model=model,
                             messages=messages
                         )
+                        
+                    sub_answers.append(response.choices[0].message.content) # store the answers for each reasoning prompt
+                
+                answers.append(sub_answers[-1]) # store the final answer
+                
+                # Store prompt answers
+                pr = ""
+                for i in range(len(sep_prompts)):
+                    pr += f"{sep_prompts[i]}\n\nResponse to Step {i+1}: {sub_answers[i]}\n\n"
+                new_prompts.append(pr)
+                
+            rule[f"{model}_Answer"] = answers # add answers as a column
+            rule[f"{model}_Responses"] = new_prompts # add all responses as a column
+            
+            
+        rule.to_csv(answers_path / f"{rule_path.stem}.csv", index=None) # write results after all responses are collected for the rule
+        print(f"Generated LLM answers for rule {chosen_rule}.\n -----") if verbose else None
+        columns_to_remove = ['Prompt'] + [col for col in rule.columns if col.endswith('_Responses')]
+        rule = rule.drop(columns=columns_to_remove, errors='ignore')  # Drop specified columns
 
-                    sub_answers.append(response.choices[0].message.content)  # store the answers for each reasoning prompt
-
-                answers.append(sub_answers[-1])  # Store the final answer for this prompt
-
-            # Debugging step: Ensure lengths match
-            if len(answers) != len(rule):
-                print(f"Error: Length mismatch for {chosen_rule} (answers: {len(answers)}, rows: {len(rule)})")
-                continue  # Skip this rule to avoid writing mismatched data
-
-            # Add answers as a new column
-            rule[model] = answers
-            print(f"Generated LLM answers for rule {chosen_rule}.\n -----") if verbose else None
-
-            # Save updated rule DataFrame
-            rule.to_csv(output_path / f"{rule_path.stem}.csv", index=None)
-
-    print("Done.") if verbose else None
+        tables.append(rule) # store entire table
+    final = pd.concat(tables, ignore_index=True) # merge all tables vertically
+    final.to_csv(output_path / "answers/chain/final.csv", index=None) # write the final table
+    print("Generated final table.") if verbose else None
 
 # Example
 prompt_path = "/app/LLM_prompting/data/prompt/Prompt-chaining.txt"
 data_path = "/app/LLM_prompting/data/sibling_output.txt"
 models = ["qwen2.5-coder:32b","llama3.2","mistral","llama3.1:70b","llama3.1:8b"]
 output_path = "/app/LLM_prompting/data"
-chosen_rules = ["English","human","voice"]
+chosen_rules = ["voice"]
 chain_process(prompt_path=prompt_path, data_path=data_path, models=models, output_path=output_path, chosen_rules=chosen_rules)
