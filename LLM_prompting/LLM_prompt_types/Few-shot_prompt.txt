@@ -16,5 +16,6 @@ Answer: no
 Task:
 Based on the context above, determine whether <candidate-type-placeholder> and <rule-head-constant> represent distinct classes.
 
-Question: Are <candidate-type-placeholder> and <rule-head-constant> distinct classes? Respond with 'yes' if they are distinct classes or 'no' if they are not.
+Question: Are <candidate-type-placeholder> and <rule-head-constant> distinct classes? Respond with 'yes' if they are distinct classes or 'no' if they are not. Your response must be one word only: either 'yes' or 'no.' Do not provide any additional explanation or context.
+
 Answer:
