@@ -11,7 +11,7 @@ $$
 
 Where:
 
-- **\(D_o\) - Observed Disagreement**:  
+**\(Do\): Observed Disagreement**    
   The ratio of disagreements among the models' ratings.
 
 $$
@@ -19,7 +19,7 @@ D_o = \frac{\text{Number of disagreements}}{\text{Total number of comparisons}}
 $$
 
 
-- **\(D_e\) - Expected Disagreement**:  
+- **\(De\) - Expected Disagreement**:  
   The level of disagreement expected by chance based on the distribution of responses, which normalizes the agreement calculation.
   
 $$
