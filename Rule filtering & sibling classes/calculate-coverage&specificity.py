@@ -62,7 +62,7 @@ def assess_rule(row):
     else:
         return 0
 
-# Define probability ranges and process each range
+# Define confidence ranges and process each range
 #first filtering based on confidence score >0.85
 ranges = [
     (0.85, 0.90),(0.90, 0.95), (0.95, 1.0)
@@ -70,15 +70,14 @@ ranges = [
 
 for lower, upper in ranges:
     range_df = f_df[(f_df["probability"] >= lower) & (f_df["probability"] < upper)].copy()
-    df_sampled = range_df.sample(n=1542, random_state=42)  # random_state for reproducibility
-
-    print(f"Range ({lower}, {upper}): {len(df_sampled)} entries")
+ 
+    print(f"Range ({lower}, {upper}): {len(range_df)} entries")
     #second filtering
     # Calculate specificity for each rule in the range
-    df_sampled["specificity"] = df_sampled.apply(assess_rule, axis=1)
+    range_df["specificity"] = range_df.apply(assess_rule, axis=1)
     
     output_file_path = f'/home/jovyan/work/pos-to-neg-rules/output_{upper}-{lower}.csv'
     
     # Export the range DataFrame to a CSV file
-    df_sampled.to_csv(output_file_path, sep='\t', index=False)
-    print(f"Exported {output_file_path} with {len(df_sampled)} rows.")
+    range_df.to_csv(output_file_path, sep='\t', index=False)
+    print(f"Exported {output_file_path} with {len(range_df)} rows.")
