@@ -1,0 +1,8 @@
+Rule,Rule_Constant,Candidate_Class,Precision,Recall,Accuracy
+1,English,Scots,1.0,0.6,0.6
+1,English,Early Modern English,1.0,0.8,0.8
+1,English,Modern English,0.0,0.0,0.8
+1,English,Fingalian,1.0,1.0,1.0
+1,English,Middle English,1.0,0.6,0.6
+1,English,Old English,1.0,0.6,0.6
+1,English,Yola,1.0,0.8,0.8

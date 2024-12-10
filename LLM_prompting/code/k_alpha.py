@@ -44,23 +44,32 @@ def krippendorffs_alpha(csv_path):
             print(f"Skipping row due to invalid response: {e}")
             continue
         
-        # Calculate observed disagreement (D_o)
+        # The total number of unique comparisons possible between ratings.
+        # If there are n ratings, the total comparisons are n×(n−1):
         total_comparisons = len(ratings) * (len(ratings) - 1)
         disagreements = 0
+        
+        # Count disagreements for each pair of ratings
         for i in range(len(ratings)):
-            for j in range(i + 1, len(ratings)):
+            for j in range(i + 1, len(ratings)): # Only compare each pair once
                 if ratings[i] != ratings[j]:
                     disagreements += 1
+        
+        #ratio of disagreement
         D_o = disagreements / total_comparisons if total_comparisons > 0 else 0
 
         # Calculate expected disagreement (D_e)
-        p_1 = sum(ratings) / len(ratings)  # Probability of 'Yes'
-        p_0 = 1 - p_1  # Probability of 'No'
+        p_1 = sum(ratings) / len(ratings)  # ratio of 'Yes'
+        p_0 = 1 - p_1  # ratio of 'No'
+        # Expected disagreement
         D_e = 1 - (p_1**2 + p_0**2)
 
         # Calculate Krippendorff's alpha
-        if D_e == 0:  # Avoid division by zero
-            alpha = 1.0 if D_o == 0 else 0.0
+        #Handle edge cases - no expected disagreement D_e == 0
+        if D_e == 0:  
+                     #If 𝐷_o = 0 there's perfect agreement, so α=1.
+                     #if 𝐷_o > 0 there's complete disagreement, so α=0. 
+            alpha = 1.0 if D_o == 0 else 0.0 
         else:
             alpha = 1 - (D_o / D_e)
 
