@@ -4,7 +4,7 @@ PREFIX wdt: <http://www.wikidata.org/prop/direct/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 SELECT ?sibling ?siblingLabel WHERE {
   # Find the subclass of the given constant
-  wd:Q9268 wdt:P279 ?parentClass .
+  <constant> wdt:P279 ?parentClass .
   
   # Find other entities with the same parent class
   ?sibling wdt:P279 ?parentClass .
@@ -12,7 +12,7 @@ SELECT ?sibling ?siblingLabel WHERE {
   FILTER (LANG(?siblingLabel) = "en") .
   
   # Exclude the original entity from the results
-  FILTER(?sibling != wd:Q9268)
+  FILTER(?sibling != <constant>)
   
  
 }

@@ -1,27 +1,28 @@
 # LLM-Based Classification & Inter-Annotator Evaluation
 - We experimented with Qwen2.5-Coder:32b, Llama3.2, Mistral, Llama3.1:70b, Llama3.1:8b for the disjointness classification task. To maintain consistent and interpretable outputs, we restricted the length of model responses and filtered out the invalid ones that did not align with "yes" or "no". We employed zero- and few-shot prompting along with Prompt chaining.
 
-- We evaluated the level of agreement among the answers provided by different LLMs when classifying sibling classes as disjoint with Krippendorff's $\alpha$ calculation.
+- We evaluated the level of agreement among the answers provided by different LLMs when classifying sibling classes as disjoint with Krippendorff's alpha calculation.
 
-Krippendorff’s Alpha (\(\alpha\)) is calculated as:
+Krippendorff’s Alpha is calculated as:
 
-\[
+$$
 \alpha = 1 - \frac{D_o}{D_e}
-\]
+$$
 
 Where:
 
 - **\(D_o\) - Observed Disagreement**:  
   The ratio of disagreements among the models' ratings.
-  \[
-  D_o = \frac{\text{Number of disagreements}}{\text{Total number of comparisons}}
-  \]
+$$
+D_o = \frac{\text{Number of disagreements}}{\text{Total number of comparisons}}
+$$
+
 
 - **\(D_e\) - Expected Disagreement**:  
   The level of disagreement expected by chance based on the distribution of responses, which normalizes the agreement calculation.
-  \[
-  D_e = 1 - \left( p_1^2 + p_0^2 \right)
-  \]
+$$
+D_e = 1 - \left( p_1^2 + p_0^2 \right)
+$$
 
 Here:
 - \(p_1\) represents the probability of a "yes" response.

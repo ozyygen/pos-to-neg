@@ -25,10 +25,13 @@ f_df = pd.read_csv(
 g = Graph()
 g.parse("/home/jovyan/work/pos-to-neg-rules/codexM-output.ttl", format="turtle")
 
+#Measures how specific the given object (rule_head_obj) is to the predicate, compared to other objects of the predicate.
 def calculate_specifity(predicate, rule_head_obj):
+    #Counts how many times the rule_head_obj is associated with the given predicate in the KG.
     total_head_instances = len(list(g.triples((None, predicate,rule_head_obj ))))
-    
+    #Counts how many times the predicate is used with any object in the KG.
     total_head_var_instances = len(list(g.triples((None, predicate, None))))
+    #specificity score of the rule
     return total_head_instances / total_head_var_instances 
 
 # Apply assessments on each rule
@@ -53,12 +56,14 @@ def assess_rule(row):
     head_object = head_object1 if uri_pattern.search(head_object1) else (head_object2 if uri_pattern.search(head_object2) else None)
     
     if body_object and head_object:
-        coverage = calculate_specifity(head_predicate,head_object )
-        return coverage
+        #specificity calculation of the rule
+        specificity = calculate_specifity(head_predicate,head_object )
+        return specificity
     else:
         return 0
 
 # Define probability ranges and process each range
+#first filtering based on confidence score >0.85
 ranges = [
     (0.85, 0.90),(0.90, 0.95), (0.95, 1.0)
 ]
@@ -68,9 +73,9 @@ for lower, upper in ranges:
     df_sampled = range_df.sample(n=1542, random_state=42)  # random_state for reproducibility
 
     print(f"Range ({lower}, {upper}): {len(df_sampled)} entries")
-
-    # Calculate coverage for each rule in the range
-    df_sampled["coverage_head"] = df_sampled.apply(assess_rule, axis=1)
+    #second filtering
+    # Calculate specificity for each rule in the range
+    df_sampled["specificity"] = df_sampled.apply(assess_rule, axis=1)
     
     output_file_path = f'/home/jovyan/work/pos-to-neg-rules/output_{upper}-{lower}.csv'
     
