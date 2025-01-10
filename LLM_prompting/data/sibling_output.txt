@@ -1,8 +1,24 @@
-Rule_constant: English
-Scots, Early Modern English, Modern English, Fingalian, Middle English, Pitkern, Old English, Yola
+Rule_constant: hasBrother
+hasFather, hasFemalePartner, hasMalePartner, hasMother, hasSister, isFatherOf, isMotherOf
 
-Rule_constant: human
-defector, obscene phone call, highly sensitive person, extremist, coward, meteorological observer, Anglican, Tetragrammaton, tenant, person related to this event, Plutark, disadvantaged, slashas, fashion icon, liberal, analphabetic, participant in the resistance and resistance against communism, invested cooperative member, Japanophile, client, optimist, person with disabilities, cisgender, realist, newcomer, Mitläufer, adoptee, assistant nursing sister, aquarium animal, heterosexual, new literate, thirtysomething, historical person, fortysomething, psychopath, insular mammal, person without denomination, young person, invasive mammal, tattooed person, person related to this item, protocol specialist, expert, someone, enthusiast, wholecoiner, Flibbertigibbet, role model, sectarian, rich people, restituent, jutoshonin, pervert, tairikurounin, natural person doing business according to some other law than Trade Licensing Act or Agriculture Act not registered in the Commercial Register, natural person doing business according to some other law than Trade Licensing Act or Agriculture Act registered in the Commercial Register, significant other, savior, neo-Malthusian, Malthusian, transhumanist, bat, pessimist, Japan-acculturated person, legal holder of rights for a creative work, ietsist, Antoinist, idol, worrywart, weakling, demisexual, Taoist, fiftysomething, sixtysomething, seventysomething, 100-109 year old, LGBT person, Padma McCord, observer, byzantine christian, educationally disadvantaged, animist, xenophobe, weirdo, home-grown talent, refugee recipient, condemned person, Alewa Jonathan David, raccoon, orderly, terrestrial mammal, supremacist, Ivir, dissenter, zealot, nonresident, Thegn, gynephile, androphile, creative person, dual-career commuter couples, post-weaning animal, leader, allosexual, quarrelsome person, gruff person, pomosexual, Lusophones, refusenik, profane, deportee, visitor, Kvemming, freeman, relative, Debrujár, patron, adversary, stupid, person with an activity, buyer, loner, Russell Brakefield, alleged victim of witchcraft, atheist, písmák, twentysomething, senior, marginal, specialist, breadwinner, patronus, combatant, alumnus, figurehead, host, Pratyekabuddhayāna, activist, Wels catfish, tori, Recipient of the Knight's Cross of the Iron Cross, pfeilstorch, bore, unskilled person, patriot, proband, solipsist, speaker, intermediary, florist, netizen, party, non-vegetarian, discussion moderator, Taper, film crew member, Lolita, unchurched, fellow traveler, impious person, believer, Philippine shamans, cornucopian, non-human person, vegetarian, victim, smoker, hermit, God, metrosexual, personal god, fan, homemaker, idiot, medalist, taxpayer, wrongdoer, person related to this place, first responder, neighbor, Totok, Bodlim, civilian, former people, sympathizer, outsider, womaniser, scholar, loser, celebrity, nonagenarian, octogenarian, people in poverty, Abrek, prostitute, look-alike, elderly people, mint lord, party animal, cephalophore, road user, vassal, elderly loiterer, individual person, ingeland, traveler, inhabitant, sleeper, bystander, speaker, freemason, eligible voter, good-for-nothing, Tangata manu, lefgozer, someone reading to others, creator, fellow human, nozem, animal in space, padvinder, dharmist, beggar, Baal teshuva, ship christener, eenmanszaak, acquaintance, dedicatee, Chiroptera, adventurer, unemployed, reasonable person, choirboy, sole proprietorship, homeless person, barker, centenarian, dying person, Christopher and Cosmas, underdog, bear, aquatic mammal, Father of the House, hedgehog, ex, dancing partner, collector, private, logistician, runner-up, anti-fan, pantoffelheld, heretic, philomath, expert, crow, parasite, Qachaq, player, research participant, actor, small person, intelligent designer, liar, interlocutor, asset, skinhead, bellwether, demitarian, humanoid, sportsperson, socialite, animal actor, last man, animal-person, fall guy, betrayer, parishioner, bailiff, natural person doing business according to the Trade Licensing Act not registered in the Commercial Register, Chater, person linked to the law, historical figure, communicator, captive mammal, cloned mammal, domesticated mammal, stranger, natural person doing business according to the Trade Licensing Act registered in the Commercial Register, holder, drop-outs, god, black sheep, persona, user, Macehualtin, affiant, rival, retired, Talpa, Apocî, zoo animals, schlimazel, arrephoros, camper, nonbeliever, partisan, person of interest, pet monkey, newbie, potential person, rageaholic, snob, young adult woman, elephant, wearer, hypothetical person, standard person, street people, suicidal person, malenger, Temple elephant, pig, freedman, legacy hunter, Snakehead, yūdansha, single person, kanephoros, senior (feudalism), copywriter, loyalist, Firal
+Rule_constant: hasFather
+hasBrother, hasFemalePartner, hasMalePartner, hasMother, hasSister, isFatherOf, isMotherOf
 
-Rule_constant: voice
-Continuum, musical saw, theremin, fretless instrument, labrosones with slides
+Rule_constant: hasFemalePartner
+hasBrother, hasFather, hasMalePartner, hasMother, hasSister, isFatherOf, isMotherOf
+
+Rule_constant: hasMalePartner
+hasBrother, hasFather, hasFemalePartner, hasMother, hasSister, isFatherOf, isMotherOf
+
+Rule_constant: hasMother
+hasBrother, hasFather, hasFemalePartner, hasMalePartner, hasSister, isFatherOf, isMotherOf
+
+Rule_constant: hasSister
+hasBrother, hasFather, hasFemalePartner, hasMalePartner, hasMother, isFatherOf, isMotherOf
+
+Rule_constant: isFatherOf
+hasBrother, hasFather, hasFemalePartner, hasMalePartner, hasMother, hasSister, isMotherOf
+
+Rule_constant: isMotherOf
+hasBrother, hasFather, hasFemalePartner, hasMalePartner, hasMother, hasSister, isFatherOf
+
