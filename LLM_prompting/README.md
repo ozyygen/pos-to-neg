@@ -1,5 +1,5 @@
 # LLM-Based Classification & Inter-Annotator Evaluation
-- We experimented with Qwen2.5-Coder:32b, Llama3.2, Mistral, Llama3.1:70b, Llama3.1:8b for the disjointness classification task. To maintain consistent and interpretable outputs, we restricted the length of model responses and filtered out the invalid ones that did not align with "yes" or "no". We employed zero- and few-shot prompting along with Prompt chaining.
+- We experimented with phi4, Llama3.1:70b, TBD for the disjointness classification task. To maintain consistent and interpretable outputs, we restricted the length of model responses and filtered out the invalid ones that did not align with "yes" or "no". We employed zero- and few-shot prompting along with Prompt chaining.
 
 - We evaluated the level of agreement among the answers provided by different LLMs when classifying sibling classes as disjoint with Krippendorff's alpha calculation.
 
@@ -29,6 +29,17 @@ $$
 Here:
 - \(p_1\) represents the probability of a "yes" response.
 - \(p_0\) represents the probability of a "no" response.
+
+## LLM Classification Task
+For running the code first start with prompt_generator then process python files. You can adjust input parameters accordingly:
+
+prompt_path = "your_path_to_Zero-shot_prompt.txt"
+data_path = "your_path_to_sibling_output.txt"
+models = ["phi4","llama3.1:70b"]
+output_path = "your_path_to_output"
+chosen_rules = ["rel1","rel2"]
+
+* We provide a sample sibling_output.txt which containts target relations along with their candidate disjoint properties. Note rule_constant is acually is rule head relation, and chosen_rules is the target head relation. We'll update them in the codes soon.
 
 ## auto_LLMs.py
 This code script automates the process of generating responses from a list of Language Learning Models (LLMs) for a given set of prompts stored in a CSV file. It evaluates the models, collects their responses, and saves the results to an output directory.

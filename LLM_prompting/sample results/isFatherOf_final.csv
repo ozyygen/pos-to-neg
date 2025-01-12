@@ -1,0 +1,8 @@
+Rule,Rule_Constant,Candidate_Class,phi4,llama3.1:70b
+7,isFatherOf,hasBrother,Yes,Yes
+7,isFatherOf,hasFather,No,No
+7,isFatherOf,hasFemalePartner,No,No.
+7,isFatherOf,hasMalePartner,No,No
+7,isFatherOf,hasMother,Yes,Yes
+7,isFatherOf,hasSister,Yes,Yes
+7,isFatherOf,isMotherOf,Yes,Yes

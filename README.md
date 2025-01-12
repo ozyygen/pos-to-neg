@@ -1,0 +1,6 @@
+# Generating Constraints for Complex Errors in Wikidata Using Property Disjointness
+- The pipeline first mines positive rules using AnyBURL and filters out insufficient ones (>0.85 rule confidence). 
+- A txt file stores all of the head relations & other head relations as blocks to be an input to disjointness classification task. Since explicit disjointness definitions are often undefined in KGs, the approach employs LLMs as a judge to decide on the disjointness of properties. 
+- LLM task employs decision making of property disjointness on given two candidate head relations. We experiment with 3 different prompting types here: Zero- and few-shot along with Prompt-chaining.
+
+For example, consider the rule: 'If an animal barks, it is a Dog.' To create a contrasting rule (a negative rule), we replace the property 'barks' with one of its logically incompatible properties, such as 'meows'. Since a meowing animal can not be a dog, we can generate the negative rule: 'If an animal meows, it is not a dog.' This transformation relies on the disjointness between the 'barks' and 'meows' relations.
