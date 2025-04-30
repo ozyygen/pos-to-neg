@@ -1,43 +1,5 @@
-# LLM-Based Classification & Inter-Annotator Evaluation
-- We experimented with phi4, Llama3.1:70b, TBD for the disjointness classification task. To maintain consistent and interpretable outputs, we restricted the length of model responses and filtered out the invalid ones that did not align with "yes" or "no". We employed zero- and few-shot prompting along with Prompt chaining.
-
-- We evaluated the level of agreement among the answers provided by different LLMs when classifying sibling classes as disjoint with Krippendorff's alpha calculation.
-
-Krippendorff’s Alpha is calculated as:
-
-$$
-\alpha = 1 - \frac{D_o}{D_e}
-$$
-
-Where:
-
-**\(Do\): Observed Disagreement**    
-  The ratio of disagreements among the models' ratings.
-
-$$
-D_o = \frac{\text{Number of disagreements}}{\text{Total number of comparisons}}
-$$
-
-
-- **\(De\) - Expected Disagreement**:  
-  The level of disagreement expected by chance based on the distribution of responses, which normalizes the agreement calculation.
-  
-$$
-D_e = 1 - \left( p_1^2 + p_0^2 \right)
-$$
-
-Here:
-- \(p_1\) represents the probability of a "yes" response.
-- \(p_0\) represents the probability of a "no" response.
-
-## LLM Classification Task
-For running the code first start with prompt_generator then process python files. You can adjust input parameters accordingly:
-
-prompt_path = "your_path_to_Zero-shot_prompt.txt"
-data_path = "your_path_to_sibling_output.txt"
-models = ["phi4","llama3.1:70b"]
-output_path = "your_path_to_output"
-chosen_rules = ["rel1","rel2"]
+# LLM-Based Inter-Annotator Evaluation
+- We experimented with Llama3.1:70b, TBD for the disjointness classification task. To maintain consistent and interpretable outputs, we restricted the length of model responses and filtered out the invalid ones that did not align with "yes" or "no". We employed zero- and few-shot prompting along with Prompt chaining.
 
 * We provide a sample sibling_output.txt which containts target relations along with their candidate disjoint properties. Note rule_constant is acually is rule head relation, and chosen_rules is the target head relation. We'll update them in the codes soon.
 
@@ -47,13 +9,5 @@ This code script automates the process of generating responses from a list of La
 ## process.py
 This code generates prompts for all rule head & sibling class pairs particularly for zero- and few-shot prompting methods. Then, it gets results from a series of LLMs per chosen pair.
 
-## chain_process.py
-This code generates prompts for all rule head & sibling class pairs particularly for prompt chaining method. Then, it gets results from a series of LLMs per chosen pair.
 
-## prompt_generator.py
-This script generates the formatted prompts for Large Language Models (LLMs) by combining rule constants and their candidate sibling classes. The prompts are created based on the templates in LLM prompt types folder, and saved as individual CSV files for each rule constant.
-
-## k_alpha.py
-Calculates Krippendorff's alpha per constant and sibling pair answers in the related final tables at /../pos-to-neg/LLM_prompting/sample results by LLMs.
-    
 
