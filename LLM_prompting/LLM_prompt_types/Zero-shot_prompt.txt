@@ -1,5 +1,0 @@
-Context:
-Property disjointness is a constraint ensuring that two or more properties cannot apply to the same pair of entities simultaneously. For instance, the properties 'female' and 'male' for a person cannot refer the gender at the same time. This enforces logical separation between properties that convey mutually exclusive relationships. However, in some cases, the boundaries between properties can blur. For example, while 'died at' and 'born at' are typically disjoint properties, in some knowledge bases they can be the same date beacuse of time format limitations.
-
-Question:
-Are <candidate-type-placeholder> and <rule-head-constant> disjoint properties? Respond with 'yes' if they are, or 'no' if they are not. Your response must be one word only: either 'yes' or 'no.' Do not provide any additional explanation or context.
