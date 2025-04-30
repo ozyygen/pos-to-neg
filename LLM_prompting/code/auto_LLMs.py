@@ -29,7 +29,8 @@ def auto_LLMs(rule_path: str, models: list, output_path: str):
     client = OpenAI(
     base_url="http://ollama:11434/v1/",  # Ensure this URL is correct
     api_key="ollama"  # Replace with the actual API key
-)
+)   
+
     torch.manual_seed(0)
     for model in models:
         print(f"Processing model: {model}")
@@ -38,10 +39,11 @@ def auto_LLMs(rule_path: str, models: list, output_path: str):
         # Iterate through prompts
         for ix in tqdm(range(rule.shape[0]), desc=f"Evaluating prompts for {model}"):
             try:
+                
                 # Get the prompt and clean unnecessary spaces
                 prompt = rule["Prompt"].iloc[ix].strip()
                 context, question = prompt.split("\n\n", 1)  # Split prompt into context and question
-
+                
                 # Format messages
                 messages = [
                     {"role": "system", "content": f"Answer only in 'Yes' or 'No'\nContext: {context}"},
